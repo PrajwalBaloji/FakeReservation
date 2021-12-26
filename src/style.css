@@ -109,6 +109,7 @@ body {
     font-weight: bold;
     font-size: 18px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 /* header component ui  */
@@ -157,6 +158,13 @@ body {
     color: #383839;
     font-size: 24px;
     font-weight: bold;
+    cursor: pointer;
+}
+
+.side-bar p:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #050505;
+    
 }
 
 .page-container {
@@ -167,3 +175,68 @@ body {
 .page-container .header-layout {
     grid-column: 1/-1;
 }
+
+
+/* plan journey page ui  */
+.create-reservation {
+    width: 50%;
+    margin: auto;
+    padding: 24px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    margin-top: 50px;
+}
+
+.label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: bold;
+    color: #383839;
+    align-items: center;
+    margin-left: 12px;
+}
+
+.label input {
+    width: 50%;
+    padding: 12px 24px;
+
+}
+
+
+/* input dropdown ui  */
+
+.input-dropdown-item {
+   padding: 12px 24px;
+   width: 100%;
+
+}
+
+
+/* dashboard ui  */
+.reservation-list-container {
+    display: grid;
+    grid-template-columns: 10% 1fr 1fr 20%;
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.reservation-list-container p {
+    padding: 24px;
+    width: 100%;
+    font-size: 18px;
+    color: #383839;
+}
+
+.reservation-card {
+    display: grid;
+    grid-template-columns: 10% 1fr 1fr 20%;
+    grid-column: 1/-1;
+}
+
+
+
+

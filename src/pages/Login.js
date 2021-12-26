@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import Button from '../components/Button/Button'
 import { ACTION } from '../App'
+import Button from '../components/Button';
 import { isValidEmail } from '../utils'
 
 export default function Login({dispatch}) {

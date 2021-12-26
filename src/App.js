@@ -14,20 +14,27 @@ import SignUp from "./pages/SignUp";
 
 // usereducer hook to mentain the aplication state 
 const initialState = {
-  userName:''
+  userName:'',
+  reservationList:[]
 }
 
 export const ACTION={
-  LOGIN:'LOGIN'
+  LOGIN:'LOGIN',
+  CREATE_JOURNEY:'CREATE_JOURNEY',
 }
 
 const reducer =(state,action)=>{
+  debugger
   switch (action.type) {
     case ACTION.LOGIN:
       return  {
         ...state,userName:action.payload
       }
-    
+    case ACTION.CREATE_JOURNEY :
+      return {
+        ...state,
+        reservationList:[...state.reservationList,action.payload]
+      }
   
     default:
       return state;
@@ -39,10 +46,11 @@ const reducer =(state,action)=>{
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
   
+  console.log('state',state);
   return (
     <Routes>
-      <Route path="/" element={<PrivateRoute ><Dashboard state={state}/></PrivateRoute>} exact/>
-      <Route path="/planjourney" element={<PrivateRoute ><PlanJourney /></PrivateRoute>} exact/>
+      <Route path="/" element={<PrivateRoute ><Dashboard state={state} dispatch={dispatch}/></PrivateRoute>} exact/>
+      <Route path="/planjourney" element={<PrivateRoute ><PlanJourney dispatch={dispatch} state={state}/></PrivateRoute>} exact/>
       <Route path="/login" element={<PublicRoute ><Login dispatch={dispatch} /></PublicRoute>} exact />
       <Route path="/signup" element={<PublicRoute ><SignUp /></PublicRoute>}  exact/>
     </Routes>
