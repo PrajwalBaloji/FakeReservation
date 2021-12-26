@@ -2,10 +2,10 @@ import React from 'react'
 import HeaderLayout from '../components/HeaderLayout'
 import Sidebar from '../components/Sidebar'
 
-function Dashboard() {
+function Dashboard({state}) {
     return (
         <div className='page-container'>
-            <HeaderLayout/>
+            <HeaderLayout userName={state.userName}/>
             <Sidebar/>
             <main className='main-content'>
 

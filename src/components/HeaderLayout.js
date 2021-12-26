@@ -1,13 +1,19 @@
 import React from 'react'
+import { useLocation } from "react-router-dom"
+import { getRouteName, logout } from '../utils'
 
-function HeaderLayout() {
+
+
+function HeaderLayout({userName}) {
+    const location = useLocation();
+    
     return (
         <div className='header-layout'>
             <h1>Fake Reservation</h1>
-            <nav>Route Name</nav>
+            <nav>{getRouteName(location.pathname)}</nav>
             <div>
-             <p>email</p>
-             <p>Logout</p>
+             <p>{userName}</p>
+             <p className='logout-link' onClick={logout}>Logout</p>
             </div>
             
         </div>
