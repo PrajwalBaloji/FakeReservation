@@ -77,7 +77,7 @@ function App() {
       <Route path="/" element={<PrivateRoute ><Dashboard state={state} dispatch={dispatch}/></PrivateRoute>} exact/>
       <Route path="/planjourney" element={<PrivateRoute ><PlanJourney dispatch={dispatch} state={state}/></PrivateRoute>} exact/>
       <Route path="/login" element={<PublicRoute ><Login dispatch={dispatch} /></PublicRoute>} exact />
-      <Route path="/signup" element={<PublicRoute ><SignUp /></PublicRoute>}  exact/>
+      <Route path="/signup" element={<PublicRoute ><SignUp dispatch={dispatch}/></PublicRoute>}  exact/>
     </Routes>
   );
 }

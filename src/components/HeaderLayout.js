@@ -12,7 +12,7 @@ function HeaderLayout({userName}) {
             <h1>Fake Reservation</h1>
             <nav>{getRouteName(location.pathname)}</nav>
             <div>
-             <p>{userName}</p>
+             <p>{localStorage.getItem('user')}</p>
              <p className='logout-link' onClick={logout}>Logout</p>
             </div>
             

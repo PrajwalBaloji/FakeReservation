@@ -4,7 +4,7 @@ import { ACTION } from '../App'
 import Button from '../components/Button';
 import { isValidEmail } from '../utils'
 
-export default function Login({dispatch}) {
+export default function Login({ dispatch }) {
     let navigate = useNavigate();
 
     const [credentials, setcredentials] = useState({
@@ -33,40 +33,62 @@ export default function Login({dispatch}) {
         setValidation({
             ...validation,
             emailErr: '',
-            
+
         })
         return false
     }
 
-    const passwordValidation=()=>{
+    const passwordValidation = () => {
         if (!credentials.password) {
             setValidation({ ...validation, passwordErr: 'please Enter your password' })
             return true
-        } 
-        setValidation({ ...validation, passwordErr: '' }) 
-        return false  
+        }
+        setValidation({ ...validation, passwordErr: '' })
+        return false
+    }
+
+    const checkCredentials = (data) => {
+        debugger
+        let user = data.filter((val) => {
+            return val.email === credentials.email && val.password === credentials.password
+        })
+        if (user.length > 0) {
+            setValidation({ ...validation, loginErr: '' })
+            localStorage.setItem('isLoggedIn', true)
+            localStorage.setItem('user',credentials.email)
+            navigate('/')
+            dispatch({ type: ACTION.LOGIN, payload: credentials.email })
+            return 
+        }
+        setValidation({ ...validation, loginErr: 'incorrect password or username' })
+        return 
     }
 
     const userLogin = () => {
-     let username='sample@gmail.com'
-     let password='Password@123'
-     if(credentials.email===username &&  credentials.password===password){
-        setValidation({...validation,loginErr:''})
-        return false
-     }
-     
-     setValidation({...validation,loginErr:'incorrect password or username'})
-     return true
+        fetch('http://localhost:8000/users').then(resp => {
+            return resp.json()
+        }).then(data => {
+            checkCredentials(data)
+        })
+        // let username = 'sample@gmail.com'
+        // let password = 'Password@123'
+        // if (credentials.email === username && credentials.password === password) {
+        //     setValidation({ ...validation, loginErr: '' })
+        //     return false
+        // }
+
+        // setValidation({ ...validation, loginErr: 'incorrect password or username' })
+        // return true
     }
 
 
     const handleLogin = () => {
         if (emailValidation()) return
-        if(passwordValidation()) return
-        if(userLogin()) return 
-        localStorage.setItem('isLoggedIn',true)
-        navigate('/')
-        dispatch({type:ACTION.LOGIN,payload:credentials.email})
+        if (passwordValidation()) return
+        userLogin()
+        // localStorage.setItem('isLoggedIn', true)
+        // navigate('/')
+        // dispatch({ type: ACTION.LOGIN, payload: credentials.email })
     }
 
     console.log(credentials, validation);
@@ -86,8 +108,8 @@ export default function Login({dispatch}) {
             <Button label={'Log In'} callback={handleLogin} />
             {validation.loginErr && <p className='error-message'>{validation.loginErr}</p>}
             <div className="register-route">
-                <p onClick={()=>navigate('/signup')}>Create Account</p>
-                <p onClick={()=>navigate('/signup')}> Forgot Password?</p>
+                <p onClick={() => navigate('/signup')}>Create Account</p>
+                <p onClick={() => navigate('/signup')}> Forgot Password?</p>
             </div>
         </div>
     )

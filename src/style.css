@@ -64,7 +64,6 @@ body {
 .sign-up input{
     padding: 8px;
     border: 1px solid #dddfe2;
-    color: #f0f2f5;
 }
 
 .sign-up p {
@@ -80,7 +79,7 @@ body {
 
 /* error message  */
 .error-message {
-    color: rgba(241, 82, 82, 0.74);
+    color: rgba(241, 82, 82, 0.74) !important;
     font: 8px;
 }
 
