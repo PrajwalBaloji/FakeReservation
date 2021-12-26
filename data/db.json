@@ -1,0 +1,19 @@
+{
+  "reservations": [
+    {
+      "source": "Bengaluru",
+      "destination": "Mumbai",
+      "journeyDate": "2021-12-16",
+      "id": 1
+    }
+  ],
+  "destinations": [
+    "Bengaluru",
+    "Mumbai",
+    "Chennai",
+    "Kolkatta",
+    "Goa",
+    "kochi",
+    "Hyderabad"
+  ]
+}

@@ -5,7 +5,7 @@ import InputDropdown from '../components/InputDropdown'
 import Button from '../components/Button'
 import { ACTION } from '../App'
 
-function PlanJourney({dispatch}) {
+function PlanJourney({dispatch,state}) {
     const initialJourney={
         source:'',
         destination:'',
@@ -39,7 +39,15 @@ function PlanJourney({dispatch}) {
 
     const handleCreateJourney =()=>{
         if(validateJourneyDetails()) return 
-        dispatch({type:ACTION.CREATE_JOURNEY,payload:journey})
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(journey)
+        };
+        fetch('http://localhost:8000/reservations',requestOptions).then(()=>{
+            console.log('added successfully');
+        }).catch(res=>console.log(res))
+       
         setjourney(initialJourney)
     }
     return (
@@ -48,8 +56,8 @@ function PlanJourney({dispatch}) {
             <Sidebar />
             <main className='main-content'>
               <div className="create-reservation card">
-                     <InputDropdown placeholder={" Choose Source"} name='source' callback={handleJourneyDetails} value={journey.source}/>
-                     <InputDropdown placeholder={"Choose destination"} name='destination' callback={handleJourneyDetails} value={journey.destination}/>
+                     <InputDropdown placeholder={" Choose Source"} name='source' callback={handleJourneyDetails} value={journey.source} destinations={state.destinations}/>
+                     <InputDropdown placeholder={"Choose destination"} name='destination' callback={handleJourneyDetails} value={journey.destination} destinations={state.destinations}/>
                      <label className='label'>Pick Journey Date :  <input type="date" name='journeyDate' onChange={(e)=>handleJourneyDetails(e)} value={journey.journeyDate}/></label>
                     <Button label={'Create Reservation'} callback={handleCreateJourney}/>
                     { errorMsg && <p className='error-message'>{errorMsg}</p>}

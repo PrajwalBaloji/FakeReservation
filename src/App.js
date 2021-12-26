@@ -3,6 +3,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import { getData } from "./API/api";
 import PrivateRoute from "./Auth/PrivateRoute";
 import PublicRoute from "./Auth/PublicRoute";
 // import HeaderLayout from "./components/HeaderLayout";
@@ -15,17 +16,20 @@ import SignUp from "./pages/SignUp";
 // usereducer hook to mentain the aplication state 
 const initialState = {
   userName:'',
-  reservationList:[]
+  reservationList:[],
+  destinations:[]
 }
 
 export const ACTION={
   LOGIN:'LOGIN',
   CREATE_JOURNEY:'CREATE_JOURNEY',
-  CANCEL_JOURNEY:'CANCEL_JOURNEY'
+  CANCEL_JOURNEY:'CANCEL_JOURNEY',
+  SET_RESERVATIONS:'SET_RESERVATIONS',
+  SET_DESTINATION:'SET_DESTINATION',
+
 }
 
 const reducer =(state,action)=>{
-  debugger
   switch (action.type) {
     case ACTION.LOGIN:
       return  {
@@ -36,14 +40,26 @@ const reducer =(state,action)=>{
         ...state,
         reservationList:[...state.reservationList,action.payload]
       }
-    case ACTION.CANCEL_JOURNEY : {
+    case ACTION.CANCEL_JOURNEY : 
       return {
         ...state,
-        reservationList:state.reservationList.filter((item,index)=>{
-          return index !== action.payload
+        reservationList:state.reservationList.filter((item)=>{
+          return item.id !== action.payload
         })
       }
-    }
+      
+    case ACTION.SET_RESERVATIONS : 
+     return {
+       ...state,
+       reservationList:action.payload
+     }
+
+    case ACTION.SET_DESTINATION:
+      return {
+        ...state,
+        destinations:action.payload
+      }
+    
   
     default:
       return state;
