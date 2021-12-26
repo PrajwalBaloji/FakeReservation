@@ -21,6 +21,7 @@ const initialState = {
 export const ACTION={
   LOGIN:'LOGIN',
   CREATE_JOURNEY:'CREATE_JOURNEY',
+  CANCEL_JOURNEY:'CANCEL_JOURNEY'
 }
 
 const reducer =(state,action)=>{
@@ -35,6 +36,14 @@ const reducer =(state,action)=>{
         ...state,
         reservationList:[...state.reservationList,action.payload]
       }
+    case ACTION.CANCEL_JOURNEY : {
+      return {
+        ...state,
+        reservationList:state.reservationList.filter((item,index)=>{
+          return index !== action.payload
+        })
+      }
+    }
   
     default:
       return state;
