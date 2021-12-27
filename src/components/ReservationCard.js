@@ -2,10 +2,11 @@ import React from 'react'
 import Button from './Button'
 import { ACTION } from '../App'
 
-function ReservationCard({ reservation, dispatch,cancelReservation }) {
+function ReservationCard({ reservation, dispatch,cancelReservation,index }) {
     const deleteCard = () => {
-        cancelReservation(reservation.id)
+        cancelReservation(index)
     }
+    const userid = JSON.parse(localStorage.getItem('user'))
     return (
         <div className='reservation-card'>
             <div className="journey-date">
@@ -18,7 +19,10 @@ function ReservationCard({ reservation, dispatch,cancelReservation }) {
             <div className="jorney-to">
                 To <span>{reservation.destination}</span>
             </div>
-            <Button label={'cancel'} callback={deleteCard} />
+            {
+                userid.userId !== 'admin' && <Button label={'cancel'} callback={deleteCard} />
+            }
+            
         </div>
     )
 }

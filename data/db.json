@@ -1,18 +1,4 @@
 {
-  "reservations": [
-    {
-      "source": "Bengaluru",
-      "destination": "Mumbai",
-      "journeyDate": "2021-12-16",
-      "id": 1
-    },
-    {
-      "source": "Bengaluru",
-      "destination": "Chennai",
-      "journeyDate": "2021-12-08",
-      "id": 2
-    }
-  ],
   "destinations": [
     "Bengaluru",
     "Mumbai",
@@ -24,29 +10,75 @@
   ],
   "users": [
     {
+      "id": "admin",
+      "email": "admin@fake.com",
+      "phoneNumber": "9742456631",
+      "password": "admin",
+      "reservations": []
+    },
+    {
       "id": 1,
       "email": "sample@gmail.com",
       "phoneNumber": "9742456631",
-      "password": "Password@123"
+      "password": "Password@123",
+      "reservations": []
     },
     {
       "id": 2,
       "email": "sample123@gmail.com",
       "phoneNumber": "9742456631",
+      "reservations": [
+        {
+          "source": "Bengaluru",
+          "destination": "Mumbai",
+          "journeyDate": "2021-12-21"
+        },
+        {
+          "source": "kochi",
+          "destination": "Chennai",
+          "journeyDate": "2021-12-22"
+        },
+        {
+          "source": "Chennai",
+          "destination": "Hyderabad",
+          "journeyDate": "2021-12-30"
+        }
+      ],
       "password": "Password@123"
     },
     {
       "email": "email@gmail.com",
       "password": "123456",
       "phoneNumber": "113312312313132",
-      "confirmPassword": "123456",
+      "reservations": [],
       "id": 3
     },
     {
       "email": "email123@gmail.com",
       "password": "0000000000",
       "phoneNumber": "12313131",
+      "reservations": [],
       "id": 4
+    },
+    {
+      "email": "prajwal@gmail.com",
+      "password": "Password@123",
+      "phoneNumber": "12313213",
+      "reservations": [
+        {
+          "source": "Bengaluru",
+          "destination": "Mumbai",
+          "journeyDate": "2021-12-30"
+        }
+      ],
+      "id": 5
+    },
+    {
+      "email": "email@gmail.com",
+      "password": "Password@123",
+      "phoneNumber": "123123132",
+      "reservations": [],
+      "id": 6
     }
   ]
 }

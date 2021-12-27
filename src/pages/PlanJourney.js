@@ -38,15 +38,23 @@ function PlanJourney({dispatch,state}) {
     }
 
     const handleCreateJourney =()=>{
+      
         if(validateJourneyDetails()) return 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(journey)
-        };
-        fetch('http://localhost:8000/reservations',requestOptions).then(()=>{
-            console.log('added successfully');
-        }).catch(res=>console.log(res))
+        const userid = JSON.parse(localStorage.getItem('user'))
+        fetch(`http://localhost:8000/users/${userid.userId}`).then(resp => {
+            return resp.json()
+        }).then(data => {
+            let reservation=[...data.reservations,journey]
+            let addReservation={...data,reservations:reservation}
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(addReservation)
+            };
+            fetch(`http://localhost:8000/users/${userid.userId}`,requestOptions).then(()=>{
+                console.log('added successfully');
+            }).catch(res=>console.log(res))
+        })
        
         setjourney(initialJourney)
     }

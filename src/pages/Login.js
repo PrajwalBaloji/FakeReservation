@@ -48,14 +48,13 @@ export default function Login({ dispatch }) {
     }
 
     const checkCredentials = (data) => {
-        debugger
         let user = data.filter((val) => {
             return val.email === credentials.email && val.password === credentials.password
         })
         if (user.length > 0) {
             setValidation({ ...validation, loginErr: '' })
             localStorage.setItem('isLoggedIn', true)
-            localStorage.setItem('user',credentials.email)
+            localStorage.setItem('user',JSON.stringify({userName:user[0].email,userId:user[0].id}))
             navigate('/')
             dispatch({ type: ACTION.LOGIN, payload: credentials.email })
             return 

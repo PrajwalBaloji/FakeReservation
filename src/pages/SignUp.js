@@ -28,9 +28,26 @@ function SignUp({dispatch}) {
         })
 
     }
+    const checkCredentials = (data) => {
+        let userfilter = data.filter((val) => {
+            return val.email === user.email && val.password === user.password
+        })
+        if (userfilter.length > 0) {
+            // setValidation({ ...validation, loginErr: '' })
+            localStorage.setItem('isLoggedIn', true)
+            localStorage.setItem('user',JSON.stringify({userName:userfilter[0].email,userId:userfilter[0].id}))
+            navigate('/')
+            dispatch({ type: ACTION.LOGIN, payload: userfilter.email })
+            return 
+        }
+        // setValidation({ ...validation, loginErr: 'incorrect password or username' })
+        console.log('addeddddddddddddddddddddddddddd');
+        return 
+    }
 
     const addUser=()=>{
         let usertobeAdded={...user}
+        usertobeAdded.reservations=[]
         delete usertobeAdded.confirmPassword
         const requestOptions = {
             method: 'POST',
@@ -39,15 +56,14 @@ function SignUp({dispatch}) {
         };
         fetch('http://localhost:8000/users',requestOptions).then(()=>{
             console.log('added successfully');
-            localStorage.setItem('isLoggedIn', true)
-            localStorage.setItem('user',user.email)
-            navigate('/')
-            dispatch({ type: ACTION.LOGIN, payload: user.email })
-            return 
+            fetch('http://localhost:8000/users').then(resp => {
+            return resp.json()
+        }).then(data => {
+            checkCredentials(data)
+        })
         }).catch(res=>console.log(res))
     }
     const handleSignUp = () => {
-        debugger
         if(!user.email || !user.password || !user.phoneNumber || !user.confirmPassword ){
             setUserErr({
                 ...userErr,

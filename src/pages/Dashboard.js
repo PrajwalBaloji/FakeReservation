@@ -10,6 +10,7 @@ import Sidebar from '../components/Sidebar'
 function Dashboard({ state,dispatch}) {
     const [list,setList]=useState([])
     const [filterVal,setfilterVal]=useState('')
+    const userid = JSON.parse(localStorage.getItem('user'))
 
     const getfilteredJourneyList =(e) =>{
         setfilterVal(e.target.value)
@@ -24,10 +25,11 @@ function Dashboard({ state,dispatch}) {
     }
 
     const getReservations=()=>{
-        fetch('http://localhost:8000/reservations').then(resp=>{
+        fetch(`http://localhost:8000/users/${userid.userId}`).then(resp=>{
           return resp.json()
       }).then(data=>{
-          dispatch({type:ACTION.SET_RESERVATIONS,payload:data})
+          
+          dispatch({type:ACTION.SET_RESERVATIONS,payload:data.reservations})
       })
     }
 
@@ -40,13 +42,42 @@ function Dashboard({ state,dispatch}) {
     }
 
     const cancelReservation=(id)=>{
-       fetch(`http://localhost:8000/reservations/${id}`,{method:"DELETE"}).then(()=>{
-        getReservations()
-       })
+        fetch(`http://localhost:8000/users/${userid.userId}`).then(resp => {
+            return resp.json()
+        }).then(data => {
+            let reservation=data.reservations.filter((val,index)=>{
+               return id !==index
+            })
+            let addReservation={...data,reservations:reservation}
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(addReservation)
+            };
+            fetch(`http://localhost:8000/users/${userid.userId}`,requestOptions).then(()=>{
+                console.log('added successfully');
+                getReservations()
+            }).catch(res=>console.log(res))
+        })
+    }
+
+    const getAdminReservation=()=>{
+        fetch(`http://localhost:8000/users`).then(resp => {
+            return resp.json()
+        }).then(data => {
+            let filterReservation=data.map((item,index)=>{
+                return item.reservations
+            })
+            let fullreservationList=[]
+            filterReservation.forEach(element => {
+                fullreservationList=[...fullreservationList,...element]
+            });
+            dispatch({type:ACTION.SET_RESERVATIONS,payload:fullreservationList})
+        })
     }
 
     useEffect(()=>{
-        getReservations()
+        userid.userId !== 'admin' ?  getReservations() : getAdminReservation()
         getDestinations()
     },[])
 
@@ -69,7 +100,7 @@ function Dashboard({ state,dispatch}) {
 
                         {
                             list.map((reservation,index)=>(
-                                <ReservationCard reservation={reservation} dispatch={dispatch} key={reservation.id} cancelReservation={cancelReservation} />
+                                <ReservationCard reservation={reservation} dispatch={dispatch} key={index} cancelReservation={cancelReservation} index={index} />
                             ))
                         }
                     </div>) : <p className='no-reservaiton'>You dont hav any Reservation on ur List </p>
